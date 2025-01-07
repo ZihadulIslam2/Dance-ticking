@@ -5,20 +5,19 @@ import { getEventsById } from "../lib/events";
 import { Button } from "./button";
 import { MailingList } from "./mailing-list";
 import Modal from "./shared/dialog";
-
+import CheckoutModal from "../pages/CheckoutModal";
 
 const SingleEvent = () => {
+
   const [quantity, setQuantity] = React.useState(1);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false)
+
   const { id } = useParams();
-
   const params = id.split("-");
-
   const result = getEventsById(params[0], params[1]);
 
-  const navigate = useNavigate()
-
-  const handelClick= () => {
-    navigate('/checkout')
+  const handleBuyNowClick= () => {
+    setIsCheckoutOpen(true)
   }
 
   return (
@@ -84,8 +83,15 @@ const SingleEvent = () => {
               </div>
             </div>
             <div className="flex gap-x-4">
-              <Button onClick={handelClick}>Buy Now</Button>
+              <Button onClick={handleBuyNowClick}>Buy Now</Button>
             </div>
+            {isCheckoutOpen && (
+              <CheckoutModal
+                isOpen={isCheckoutOpen}
+                onClose={() => setIsCheckoutOpen(false)}
+                totalAmount={result.basePrice * quantity}
+              />
+            )}
           </div>
         </div>
 

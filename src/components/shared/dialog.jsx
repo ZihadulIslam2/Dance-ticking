@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import  { useRef } from "react";
 import useOutsideClick from "../../hooks/useOutsideClick";
 
 const Modal = ({ children, open, onClose }) => {
@@ -23,4 +23,5 @@ const Modal = ({ children, open, onClose }) => {
   );
 };
 
-export default Modal;
+export default Modal
+
