@@ -1,10 +1,11 @@
 import { Instagram, Minus, Plus, Youtube } from "lucide-react";
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getEventsById } from "../lib/events";
 import { Button } from "./button";
 import { MailingList } from "./mailing-list";
 import Modal from "./shared/dialog";
+
 
 const SingleEvent = () => {
   const [quantity, setQuantity] = React.useState(1);
@@ -13,6 +14,12 @@ const SingleEvent = () => {
   const params = id.split("-");
 
   const result = getEventsById(params[0], params[1]);
+
+  const navigate = useNavigate()
+
+  const handelClick= () => {
+    navigate('/checkout')
+  }
 
   return (
     <div className="bg-[#1a1b2e] min-h-screen py-20">
@@ -77,7 +84,7 @@ const SingleEvent = () => {
               </div>
             </div>
             <div className="flex gap-x-4">
-              <Button>Buy Now</Button>
+              <Button onClick={handelClick}>Buy Now</Button>
             </div>
           </div>
         </div>
