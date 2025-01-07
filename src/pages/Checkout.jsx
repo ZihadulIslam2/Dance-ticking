@@ -1,6 +1,49 @@
-import { Button } from "../components/button"
+import { useState } from 'react'
+import { Button } from '../components/button'
 
 const Checkout = () => {
+  // Total amount
+  const [totalAmount, setTotalAmount] = useState(100)
+  const [loading, setLoading] = useState(false)
+
+  // Handle Stripe payment
+  const handleStripePayment = async () => {
+    try {
+      setLoading(true)
+
+      // Fetch payment intent
+      const response = await fetch('http://localhost:3000/api/payment-intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: totalAmount,
+          currency: 'usd',
+        }),
+      })
+
+      // Check response status
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`)
+      }
+
+      const data = await response.json()
+
+      // Redirect if payment URL exists
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        console.error('Payment URL not found!')
+      }
+    } catch (error) {
+      console.error('Error processing payment:', error)
+    } finally {
+      // Reset loading state
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
@@ -39,8 +82,16 @@ const Checkout = () => {
             />
           </div>
           <div className="flex flex-col space-y-2 mt-4">
+            {/* Placeholder for PayPal Button */}
             <Button>Pay With PayPal</Button>
-            <Button variant="outline">Pay With Stripe</Button>
+            {/* Stripe Payment Button */}
+            <Button
+              variant="outline"
+              onClick={handleStripePayment}
+              disabled={loading}
+            >
+              {loading ? 'Processing...' : 'Pay With Stripe'}
+            </Button>
           </div>
         </form>
       </div>

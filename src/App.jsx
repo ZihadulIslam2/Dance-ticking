@@ -4,7 +4,6 @@ import DanceTickets from "./components/DanceTickets";
 import LoginForm from "./components/LoginForm";
 import SingleEvent from "./components/Single-Event";
 import Checkout from "./pages/Checkout";
-import StripeCheckoutForm from './pages/StripePage'
 function App() {
   return (
     <Router>
@@ -15,7 +14,6 @@ function App() {
           <Route path="/class/:id" element={<SingleEvent />} />
           <Route path="/manage" element={<ClassManagement />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/pay/stripe" element={<StripeCheckoutForm />} />
         </Routes>
       </div>
     </Router>
