@@ -56,7 +56,7 @@ const SingleEvent = () => {
             <h1 className="text-3xl font-bold text-white border-b-2 border-white/20 pb-2">
               {result.eventName}
             </h1>
-            <h1 className="text-4xl">${result.basePrice}.00</h1>
+            <h1 className="text-4xl">${result.basePrice * quantity}.00</h1>
             <div className="border-b-2 border-white/20 pb-2">
               <Description data={result} />
             </div>
