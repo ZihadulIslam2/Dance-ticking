@@ -5,43 +5,37 @@ const PayPalButton = ({ amount }) => {
     if (window.paypal) {
       window.paypal
         .Buttons({
-          // Create Order
           createOrder: (data, actions) => {
             return actions.order.create({
               purchase_units: [
                 {
                   amount: {
-                    value: amount, // Specify the amount here
+                    value: amount,
                   },
                 },
               ],
             })
           },
 
-          // On Approval
           onApprove: async (data, actions) => {
             try {
-              // Capture the payment on the frontend
               const orderDetails = await actions.order.capture()
               console.log('Captured order details:', orderDetails)
 
-              // Check if orderId exists and log it
-              console.log('Order ID:', data.orderID)
-
-              // Send capture data to the backend
+              // Send capture data to the backend API
               const response = await fetch(
-                'http://localhost:3000/api/v1/paypal/payment/capture-payment',
+                'http://localhost:3000/api/v1/paypal/payment/capture-payment', // Ensure this matches the backend URL
                 {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
                   },
-                  body: JSON.stringify({ orderId: data.orderID }), // Send the orderId to the backend
+                  body: JSON.stringify({ orderId: data.orderID }),
                 }
               )
 
               if (!response.ok) {
-                throw new Error('Failed to capture payment on backend')
+                throw new Error(`HTTP error! Status: ${response.status}`)
               }
 
               const captureData = await response.json()
@@ -58,7 +52,6 @@ const PayPalButton = ({ amount }) => {
             }
           },
 
-          // Handle Errors
           onError: (err) => {
             console.error('PayPal Button error:', err)
             alert('An error occurred with PayPal. Please try again later.')

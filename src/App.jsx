@@ -6,7 +6,10 @@ import SingleEvent from "./components/Single-Event";
 import Checkout from "./pages/Checkout";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import PaymentCancelPage from "./pages/PaymentCancelPage";
+import PaypalButton from './pages/PaypalButoon'
+
 function App() {
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-100">
@@ -18,6 +21,7 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/success" element={<PaymentSuccessPage />} />
           <Route path="/cancel" element={<PaymentCancelPage />} />
+          <Route path="/paypal/payment" element={<PaypalButton />} />
         </Routes>
       </div>
     </Router>
